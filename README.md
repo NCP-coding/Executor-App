@@ -1,7 +1,10 @@
+[![NodeJS with Webpack](https://github.com/NCP-coding/Executor-App/actions/workflows/build-and-upload-frontend-assets.yml/badge.svg)](https://github.com/NCP-coding/Executor-App/actions/workflows/build-and-upload-frontend-assets.yml)
 # Executor App 
 ![GIF demo](./.img/demo.gif)
 
 Welcome to the Executor App project! The purpose of this project is to showcase my frontend and backend development skills. The use case is straightforward: executing commands on a fleet of hosts, which I refer to as 'executors'.
+
+Give it a try here: 👉🔥[Executor App](https://ncp-coding.github.io/Executor-App/)🔥👈
 
 ## Table of Contents
 
@@ -24,7 +27,7 @@ The architecture is designed with the assumption that we have full freedom in ac
 - Executors: These run commands received from the registry service.
 
 ## Development Workflow
-![Image showing the development workflowm](./.img/dev%20workflow.jpg)
+![Image showing the development workflow](./.img/dev%20workflow.jpg)
 
 The development workflow begins with the .proto files located in the `./backend/proto` folder. The protoc generator is then used to create the Go `*.pb.go` and `*.gw.go` service definitions. Additionally, protoc is used to generate a `*.yml` file containing the Swagger REST API definition. This YAML file is utilized in the `./frontend` project for generating types for REST API calls. This approach ensures that the types are automatically generated based on the `.proto` service definitions, providing consistency and reducing manual work.
 
