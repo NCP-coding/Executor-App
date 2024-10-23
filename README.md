@@ -24,9 +24,8 @@ The architecture is designed with the assumption that we have full freedom in ac
 - Executors: These run commands received from the registry service.
 
 ## Development Workflow
-<p align="center">
-  <.img src="./.img/dev%20workflow.jpg" alt="Image showing the development workflow">
-</p>
+![Image showing the development workflowm](./.img/dev%20workflow.jpg)
+
 The development workflow begins with the .proto files located in the `./backend/proto` folder. The protoc generator is then used to create the Go `*.pb.go` and `*.gw.go` service definitions. Additionally, protoc is used to generate a `*.yml` file containing the Swagger REST API definition. This YAML file is utilized in the `./frontend` project for generating types for REST API calls. This approach ensures that the types are automatically generated based on the `.proto` service definitions, providing consistency and reducing manual work.
 
 The following example shows a rpc procedure from the registry service which will be expoesed via a HTTP server: 
