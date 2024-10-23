@@ -1,0 +1,157 @@
+# Generated with protoc-gen-openapi
+# https://github.com/kollalabs/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: RegistryService API
+    version: 0.0.1
+paths:
+    /v1/cmd:
+        post:
+            tags:
+                - RegistryService
+            summary: RemoteExecuteCmd
+            operationId: RegistryService_RemoteExecuteCmd
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RemoteExecuteCmdRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RemoteExecuteCmdResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/executors:
+        get:
+            tags:
+                - RegistryService
+            summary: ListExecutors
+            operationId: RegistryService_ListExecutors
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        Command:
+            type: object
+            properties:
+                name:
+                    type: string
+                args:
+                    type: array
+                    items:
+                        type: string
+                waitForFinish:
+                    type: boolean
+        CommandResponse:
+            type: object
+            properties:
+                uuid:
+                    type: string
+                code:
+                    enum:
+                        - UNUSED
+                        - OK
+                        - ERROR
+                        - ABORTED
+                        - STREAMING_START
+                        - STREAMING_DONE
+                        - NOOP
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Executor:
+            type: object
+            properties:
+                uuid:
+                    type: string
+                ipAddr:
+                    type: string
+                status:
+                    enum:
+                        - STARTING
+                        - ONLINE
+                        - SHUTDOWN
+                        - OFFLINE
+                        - UNKNOWN
+                        - ERROR_INTERNAL
+                    type: string
+                    format: enum
+                tags:
+                    type: array
+                    items:
+                        type: string
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListResponse:
+            type: object
+            properties:
+                executors:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Executor'
+        RemoteExecuteCmdRequest:
+            type: object
+            properties:
+                uuids:
+                    type: array
+                    items:
+                        type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
+                cmd:
+                    $ref: '#/components/schemas/Command'
+        RemoteExecuteCmdResponse:
+            type: object
+            properties:
+                response:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CommandResponse'
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+tags:
+    - name: RegistryService

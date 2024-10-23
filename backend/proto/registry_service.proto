@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+import "proto/common.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+option go_package = "tls-grpc/pkg/registry/proto";
+
+service RegistryService {
+    rpc RegisterExecutor(RegisterRequest) returns (SimpleResponse) {}
+    rpc UnregisterExecutor(UnregisterRequest) returns (google.protobuf.Empty) {}
+    rpc ListExecutors(google.protobuf.Empty) returns (ListResponse) {
+       option (google.api.http) = {
+        get: "/v1/executors"
+      };
+    }
+
+    rpc SetExecutorStatus(SetExecutorStatusRequest) returns (SimpleResponse){}
+    
+    rpc RemoteExecuteCmd(RemoteExecuteCmdRequest) returns (RemoteExecuteCmdResponse) {
+      option (google.api.http) = {
+        post: "/v1/cmd"
+        body: "*"
+      };
+    }
+}
+
+message RegisterRequest {
+  string port = 1;
+  repeated string tags = 2;
+}
+
+message UnregisterRequest {
+  string port = 1;
+}
+
+message ListResponse {
+    repeated Executor executors = 1;
+}
+
+message Executor {
+    string uuid = 1;
+    string ip_addr = 2;
+    Status status = 3;
+    repeated string tags = 4;
+}
+
+enum Status {
+  STARTING = 0;
+  ONLINE = 1;
+  SHUTDOWN = 2;
+  OFFLINE = 3;
+  UNKNOWN = 4;
+  ERROR_INTERNAL = 5;
+}
+
+message SetExecutorStatusRequest {
+  Status status = 1;
+}
+
+message RemoteExecuteCmdRequest {
+  repeated string uuids = 1;
+  repeated string tags = 2;
+  Command cmd = 3;
+}
+
+message RemoteExecuteCmdResponse {
+ repeated CommandResponse response = 1;
+}
+
+message CommandResponse {
+    string uuid = 1;
+    Code code = 2;
+    string message = 3;
+}

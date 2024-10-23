@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "tls-grpc/pkg/common/proto";
+
+message SimpleResponse {
+    Code code = 1;
+    string message = 2;
+}
+
+enum Code {
+    UNUSED = 0;
+    OK = 1;
+    ERROR = 2;
+    ABORTED = 3;
+    STREAMING_START = 4;
+    STREAMING_DONE = 5;
+    NOOP = 6;
+}
+
+message Command {
+  string name = 1;
+  repeated string args = 2;
+  bool waitForFinish = 3;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+import "proto/common.proto";
+
+option go_package = "tls-grpc/pkg/executer/proto";
+
+service ExecutorService {
+  rpc Execute(Command) returns (SimpleResponse) { }
+
+  // ToDo: For future implementation
+  rpc ExecuteStreaming(Command) returns (stream SimpleResponse) {}
+}
